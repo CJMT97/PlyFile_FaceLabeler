@@ -8,7 +8,7 @@ args = sys.argv[1:]
 filename = args[0]
 
 if len(args) > 1:
-    output_filename = args[0]
+    output_filename = args[1]
 
 print('Initilising Variables...')
 ply_data = PlyData.read(filename)
@@ -19,6 +19,9 @@ vertex_dtype = np.dtype([
     ('x', 'f4'),
     ('y', 'f4'),
     ('z', 'f4'),
+    ('nx', 'f4'),
+    ('ny', 'f4'),
+    ('nz', 'f4'),
     ('Scalar_Classification', 'f4')
 ])
 
@@ -62,6 +65,6 @@ if len(args) > 1:
     print('Writing data to ' + output_filename)
     PlyData([vertex_element, face_element], text=True).write(output_filename)
 else:
-    print('Writing data to ' + filename + "_labeled.ply")
-    PlyData([vertex_element, face_element], text=True).write(filename + "_labeled.ply")
+    print('Writing data to ' + filename.replace(".ply", "") + "_labeled.ply")
+    PlyData([vertex_element, face_element], text=True).write(filename.replace(".ply", "") + "_labeled.ply")
 print('Process Complete')
