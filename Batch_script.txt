@@ -1,0 +1,27 @@
+# PlyLabeler Batch Script
+
+New-Item -ItemType Directory -Path "Merged_Flakes/temp" -Force
+Get-ChildItem "Merged_Flakes/12_partially_labelled" -Filter *.ply | ForEach-Object {
+    $inputFile = $_.FullName
+    $outputFile = "Merged_Flakes/temp/$($_.BaseName)_labelled.ply"
+    python PlyLabeler.py "$inputFile" "$outputFile"
+}
+
+# PlyToTxT Batch Script
+python PlyToTxT.py Chuck_data\6_labelled\60004_75%_labelled.ply 60004_75%_
+
+New-Item -ItemType Directory -Path "Chunk_data/11_Chunks_nonormal" -Force
+Get-ChildItem "Merged_Flakes/11_labelled_nonormal" | ForEach-Object {
+    $inputFile = $_.FullName
+    $outputFile = $_.BaseName -replace "nonormal$", ""
+    python PlyToTxtNN.py "$inputFile" "$outputFile"
+}
+
+# RemoveNormals Batch Script
+
+New-Item -ItemType Directory -Path "6_labelled_nonormal" -Force
+Get-ChildItem "Merged_Flakes/6_labelled" -Filter *.ply | ForEach-Object {
+    $inputFile = $_.FullName
+    $outputFile = "6_labelled_nonormal/$($_.BaseName)" -replace "labelled$", "nonormal"
+    python RemoveNormals.py "$inputFile" "$outputFile"
+}

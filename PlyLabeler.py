@@ -45,7 +45,7 @@ for face_index in range(total_faces):
 
     for vertice_index in face_data[face_index]:
         if len(vertices[vertice_index]) > 3:
-            weights[int(vertices[vertice_index][3])] += 1
+            weights[int(vertices[vertice_index][6])] += 1
 
     lbl = np.argmax(weights)
     lbl_face_data.append((face_data[face_index], lbl))
